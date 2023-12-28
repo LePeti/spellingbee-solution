@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: "Spelling Bee solution API"
+  description: "An API that gives you all possible Spelling Bee solutions"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    Puzzle:
+      type: "object"
+      required:
+        - letters
+        - main_letter
+      properties:
+        letters:
+          type: "string"
+        main_letter:
+          type: "string"
+
+paths:
+  /puzzle:
+    post:
+      operationId: "spellingb.api_functions.solution"
+      summary: "Solve a SpellingBee puzzle"
+      requestBody:
+        description: |
+          SpellingBee game to solve. Provide 7 letters and one main letter that's part
+          of the 7 letters.
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "puzzle"
+              $ref: "#/components/schemas/Puzzle"
+      responses:
+        "200":
+          description: "Successfully created game and returned solution"
+        "400":
+          description: "Invalid game submitted"
