@@ -18,6 +18,10 @@ class InvalidMainLetterError(Exception):
     pass
 
 
+class InvalidLettersError(Exception):
+    pass
+
+
 class SpellingBeeGame:
     """A Game of Spelling Bee that consists of 7 distinct letters and one of those is
     the main letter. You need to create words that are at least 3 letters long,
@@ -38,6 +42,11 @@ class SpellingBeeGame:
                 f"7 distinct letters needed. {len(self.letters)} provided: "
                 f"{self.letters}"
             )
+
+        if not self.letters.issubset(set(ascii_lowercase)):
+            invalid_letters = self.letters.difference(set(ascii_lowercase))
+            raise InvalidLettersError(f"Some letters are invalid: {invalid_letters}")
+
         self.main_letter: str = (
             main_letter.lower()
             if main_letter

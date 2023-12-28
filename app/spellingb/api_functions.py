@@ -1,7 +1,7 @@
 from flask import abort
-
 from spellingb.spellingb import (
     InvalidLetterCountError,
+    InvalidLettersError,
     InvalidMainLetterError,
     LetterNotFoundError,
     SpellingBeeGame,
@@ -22,6 +22,8 @@ def solution(puzzle: dict[str, str]) -> tuple[list[str], int]:
     except InvalidMainLetterError as err:
         return abort(400, str(err))
     except LetterNotFoundError as err:
+        return abort(400, str(err))
+    except InvalidLettersError as err:
         return abort(400, str(err))
 
     solution: SpellingBeeSolution = SpellingBeeSolution(spellingb_game)
