@@ -17,15 +17,20 @@ def solution(puzzle: dict[str, str]) -> tuple[list[str], int]:
         spellingb_game: SpellingBeeGame = SpellingBeeGame.from_string(
             letters, main_letter
         )
-    except InvalidLetterCountError as err:
+    except (
+        InvalidLetterCountError,
+        InvalidMainLetterError,
+        LetterNotFoundError,
+        InvalidLettersError,
+    ) as err:
         return abort(400, str(err))
-    except InvalidMainLetterError as err:
-        return abort(400, str(err))
-    except LetterNotFoundError as err:
-        return abort(400, str(err))
-    except InvalidLettersError as err:
-        return abort(400, str(err))
+    # except InvalidMainLetterError as err:
+    #     return abort(400, str(err))
+    # except LetterNotFoundError as err:
+    #     return abort(400, str(err))
+    # except InvalidLettersError as err:
+    #     return abort(400, str(err))
 
     solution: SpellingBeeSolution = SpellingBeeSolution(spellingb_game)
 
-    return list(solution.matches), 200
+    return {"game": spellingb_game.__str__(), "solutions": list(solution.matches)}, 200
